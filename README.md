@@ -1,9 +1,9 @@
 # Mike's CJK profile fork
 
 This writable fork preserves the upstream Dictionarry database and adds
-**CJK 2160p Quality - Chinese Subs** plus a **CJK Immediate** delay preset.
-Chinese subtitle claims are required; Simplified is preferred and Traditional
-is accepted. Chinese audio, a Chinese title, MULTI and a tracker name do not
+**CJK 2160p Quality** plus a **CJK Immediate** delay preset.
+Chinese subtitle claims are optional; Simplified is preferred and Traditional
+receives a small bonus. Missing evidence has zero penalty. Chinese audio, a Chinese title, MULTI and a tracker name do not
 count as subtitle evidence.
 
 **Start with [CJK_SETUP.md](CJK_SETUP.md).** That guide covers publishing the local

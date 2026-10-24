@@ -5,7 +5,7 @@ from .evidence import pattern
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'ops' / '900000.cjk-chinese-subtitles.sql'
-PROFILE = 'CJK 2160p Quality - Chinese Subs'
+PROFILE = 'CJK 2160p Quality'
 BASE = '2160p Quality'
 MISSING = 'CJK - Missing Chinese Subtitle Evidence'
 FORMATS = [('CJKSub', 'any', 1), ('CJKSubS', 'simplified', 2000),
@@ -26,7 +26,7 @@ def generate():
         f'''INSERT INTO quality_profiles
         (name, description, upgrades_allowed, minimum_custom_format_score,
          upgrade_until_score, upgrade_score_increment)
-        SELECT {p}, 'Upstream 2160p Quality plus mandatory Chinese subtitle claims. Simplified preferred, Traditional and unspecified Chinese accepted. Use the CJK feed adapter for description evidence.',
+        SELECT {p}, 'Upstream 2160p Quality with optional Chinese subtitle preferences. Simplified preferred. Missing or contradictory subtitle evidence receives no subtitle bonus or penalty. The optional feed adapter recognizes description evidence.',
         upgrades_allowed, minimum_custom_format_score, upgrade_until_score, upgrade_score_increment
         FROM quality_profiles WHERE name = {b};''',
         f"INSERT INTO quality_profile_tags VALUES ({p}, 'CJK Local');",
@@ -44,7 +44,7 @@ def generate():
     for name, kind, score in FORMATS:
         n = quote(name)
         neg = int(score is None)
-        desc = ('Rejects missing or contradictory Chinese subtitle evidence; penalty exceeds every positive score combined.'
+        desc = ('Missing or contradictory Chinese subtitle evidence. Informational only; score is zero.'
                 if neg else 'Explicit Chinese subtitle claim. Marker is retained by {Custom Formats} naming. Not an audio-language rule.')
         lines += [
             f'INSERT INTO regular_expressions (name, pattern, description) VALUES ({n}, {quote(pattern(kind))}, {quote(desc)});',
@@ -68,10 +68,9 @@ def generate():
                 lines.append('INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) '
                              f'VALUES ({n}, {quote(title)}, {quote(media)}, {expected}, \'Local evidence regression\');')
     for arr in ('radarr', 'sonarr'):
-        lines.append(f'''-- Fail closed even if every positive upstream/custom bonus matches simultaneously.
+        lines.append(f'''-- Subtitle evidence is optional: no missing-evidence penalty.
 INSERT INTO quality_profile_custom_formats
-SELECT {p}, {quote(MISSING)}, '{arr}', -(COALESCE(SUM(CASE WHEN score > 0 THEN score ELSE 0 END), 0) + 1)
-FROM quality_profile_custom_formats WHERE quality_profile_name = {p} AND arr_type IN ('all', '{arr}');''')
+VALUES ({p}, {quote(MISSING)}, '{arr}', 0);''')
     lines.append("""INSERT INTO delay_profiles (name, preferred_protocol, usenet_delay, torrent_delay,
     bypass_if_highest_quality, bypass_if_above_custom_format_score, minimum_custom_format_score)
 VALUES ('CJK Immediate', 'only_torrent', NULL, 0, 0, 0, NULL);""")

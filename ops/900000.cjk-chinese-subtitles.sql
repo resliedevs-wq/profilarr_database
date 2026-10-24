@@ -15,26 +15,26 @@ INSERT INTO tags (name) VALUES ('CJK Local');
 INSERT INTO quality_profiles
         (name, description, upgrades_allowed, minimum_custom_format_score,
          upgrade_until_score, upgrade_score_increment)
-        SELECT 'CJK 2160p Quality - Chinese Subs', 'Upstream 2160p Quality plus mandatory Chinese subtitle claims. Simplified preferred, Traditional and unspecified Chinese accepted. Use the CJK feed adapter for description evidence.',
+        SELECT 'CJK 2160p Quality', 'Upstream 2160p Quality with optional Chinese subtitle preferences. Simplified preferred. Missing or contradictory subtitle evidence receives no subtitle bonus or penalty. The optional feed adapter recognizes description evidence.',
         upgrades_allowed, minimum_custom_format_score, upgrade_until_score, upgrade_score_increment
         FROM quality_profiles WHERE name = '2160p Quality';
 
-INSERT INTO quality_profile_tags VALUES ('CJK 2160p Quality - Chinese Subs', 'CJK Local');
+INSERT INTO quality_profile_tags VALUES ('CJK 2160p Quality', 'CJK Local');
 
 INSERT INTO quality_groups (quality_profile_name, name)
-SELECT 'CJK 2160p Quality - Chinese Subs', name FROM quality_groups WHERE quality_profile_name = '2160p Quality';
+SELECT 'CJK 2160p Quality', name FROM quality_groups WHERE quality_profile_name = '2160p Quality';
 
 INSERT INTO quality_group_members (quality_profile_name, quality_group_name, quality_name, position)
-SELECT 'CJK 2160p Quality - Chinese Subs', quality_group_name, quality_name, position FROM quality_group_members WHERE quality_profile_name = '2160p Quality';
+SELECT 'CJK 2160p Quality', quality_group_name, quality_name, position FROM quality_group_members WHERE quality_profile_name = '2160p Quality';
 
 INSERT INTO quality_profile_qualities (quality_profile_name, quality_name, quality_group_name, position, enabled, upgrade_until)
-SELECT 'CJK 2160p Quality - Chinese Subs', quality_name, quality_group_name, position, enabled, upgrade_until FROM quality_profile_qualities WHERE quality_profile_name = '2160p Quality';
+SELECT 'CJK 2160p Quality', quality_name, quality_group_name, position, enabled, upgrade_until FROM quality_profile_qualities WHERE quality_profile_name = '2160p Quality';
 
 INSERT INTO quality_profile_languages (quality_profile_name, language_name, type)
-SELECT 'CJK 2160p Quality - Chinese Subs', language_name, type FROM quality_profile_languages WHERE quality_profile_name = '2160p Quality';
+SELECT 'CJK 2160p Quality', language_name, type FROM quality_profile_languages WHERE quality_profile_name = '2160p Quality';
 
 INSERT INTO quality_profile_custom_formats (quality_profile_name, custom_format_name, arr_type, score)
-SELECT 'CJK 2160p Quality - Chinese Subs', custom_format_name, arr_type, score FROM quality_profile_custom_formats WHERE quality_profile_name = '2160p Quality';
+SELECT 'CJK 2160p Quality', custom_format_name, arr_type, score FROM quality_profile_custom_formats WHERE quality_profile_name = '2160p Quality';
 
 INSERT INTO regular_expressions (name, pattern, description) VALUES ('CJKSub', '(?is)^(?!.*(?:\bCJKSubNO\b|(?:没有|沒有|不含|不带|不帶)(?:中文|简体|簡體|繁体|繁體|中英)?字幕|\bchinese[ ._-]+(?:subtitles?|subs?)\s*:\s*(?:no|none)\b|(?:中文字幕|简体字幕|繁體字幕|繁体字幕|簡體字幕)\s*(?:待发布|待發佈|待制作|制作中|製作中)|(?:无(?:中文|简体|繁体|中英)?字幕|無(?:中文|簡體|繁體|中英)?字幕|无中字|無中字|(?:中文字幕|简体字幕|繁体字幕|中文字幕)[：:]\s*(?:无|無|没有|沒有)|\b(?:no|without)\s+(?:(?:simplified|traditional)\s+)?(?:chinese\s+)?(?:subtitles?|subs?)\b|\b(?:no|without)\s+CH[ST]\b))).*(?:(?:\bCJKSubS\b|(?<![A-Za-z0-9])CHS(?![A-Za-z0-9])|简体(?:中文)?字幕|簡體(?:中文)?字幕|简(?:繁英|繁|中英|英)字幕|簡(?:繁英|繁|中英|英)字幕|\[(?:简中|簡中|简体中文|簡體中文)\]|\bsimplified[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\b|\bzh[ _-]hans[ ._-]+(?:subtitles?|subs?)\b)|(?:\bCJKSubT\b|(?<![A-Za-z0-9])CHT(?![A-Za-z0-9])|繁体(?:中文)?字幕|繁體(?:中文)?字幕|[简簡]繁(?:英)?字幕|繁(?:中英|英)字幕|\[(?:繁中|繁体中文|繁體中文)\]|\btraditional[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\b|\bzh[ _-]hant[ ._-]+(?:subtitles?|subs?)\b)|(?:\bCJKSub(?:U)?\b|中文字幕|中英(?:双字|雙字|字幕)|内封(?:中文|中字)|內封(?:中文|中字)|内嵌(?:中文|中字)|內嵌(?:中文|中字)|\[中字\]|\bchinese[ ._-]+(?:subtitles?|subs?)\b))', 'Explicit Chinese subtitle claim. Marker is retained by {Custom Formats} naming. Not an audio-language rule.');
 
@@ -48,7 +48,7 @@ INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, 
 
 INSERT INTO condition_patterns VALUES ('CJKSub', 'Chinese subtitle evidence', 'CJKSub');
 
-INSERT INTO quality_profile_custom_formats VALUES ('CJK 2160p Quality - Chinese Subs', 'CJKSub', 'all', 1);
+INSERT INTO quality_profile_custom_formats VALUES ('CJK 2160p Quality', 'CJKSub', 'all', 1);
 
 INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('CJKSub', 'Example.S01E06.1080p.WEB-DL.CJKSubS-GROUP', 'movie', 1, 'Local evidence regression');
 
@@ -82,7 +82,7 @@ INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, 
 
 INSERT INTO condition_patterns VALUES ('CJKSubS', 'Chinese subtitle evidence', 'CJKSubS');
 
-INSERT INTO quality_profile_custom_formats VALUES ('CJK 2160p Quality - Chinese Subs', 'CJKSubS', 'all', 2000);
+INSERT INTO quality_profile_custom_formats VALUES ('CJK 2160p Quality', 'CJKSubS', 'all', 2000);
 
 INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('CJKSubS', 'Example.S01E06.1080p.WEB-DL.CJKSubS-GROUP', 'movie', 1, 'Local evidence regression');
 
@@ -116,7 +116,7 @@ INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, 
 
 INSERT INTO condition_patterns VALUES ('CJKSubT', 'Chinese subtitle evidence', 'CJKSubT');
 
-INSERT INTO quality_profile_custom_formats VALUES ('CJK 2160p Quality - Chinese Subs', 'CJKSubT', 'all', 1);
+INSERT INTO quality_profile_custom_formats VALUES ('CJK 2160p Quality', 'CJKSubT', 'all', 1);
 
 INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('CJKSubT', 'Example.S01E06.1080p.WEB-DL.CJKSubS-GROUP', 'movie', 0, 'Local evidence regression');
 
@@ -138,11 +138,11 @@ INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, 
 
 INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('CJKSubT', 'Example.S01E06.1080p.WEB-DL.CHS.CJKSubNO-GROUP', 'series', 0, 'Local evidence regression');
 
-INSERT INTO regular_expressions (name, pattern, description) VALUES ('CJK - Missing Chinese Subtitle Evidence', '(?is)^(?!.*(?:\bCJKSubNO\b|(?:没有|沒有|不含|不带|不帶)(?:中文|简体|簡體|繁体|繁體|中英)?字幕|\bchinese[ ._-]+(?:subtitles?|subs?)\s*:\s*(?:no|none)\b|(?:中文字幕|简体字幕|繁體字幕|繁体字幕|簡體字幕)\s*(?:待发布|待發佈|待制作|制作中|製作中)|(?:无(?:中文|简体|繁体|中英)?字幕|無(?:中文|簡體|繁體|中英)?字幕|无中字|無中字|(?:中文字幕|简体字幕|繁体字幕|中文字幕)[：:]\s*(?:无|無|没有|沒有)|\b(?:no|without)\s+(?:(?:simplified|traditional)\s+)?(?:chinese\s+)?(?:subtitles?|subs?)\b|\b(?:no|without)\s+CH[ST]\b))).*(?:(?:\bCJKSubS\b|(?<![A-Za-z0-9])CHS(?![A-Za-z0-9])|简体(?:中文)?字幕|簡體(?:中文)?字幕|简(?:繁英|繁|中英|英)字幕|簡(?:繁英|繁|中英|英)字幕|\[(?:简中|簡中|简体中文|簡體中文)\]|\bsimplified[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\b|\bzh[ _-]hans[ ._-]+(?:subtitles?|subs?)\b)|(?:\bCJKSubT\b|(?<![A-Za-z0-9])CHT(?![A-Za-z0-9])|繁体(?:中文)?字幕|繁體(?:中文)?字幕|[简簡]繁(?:英)?字幕|繁(?:中英|英)字幕|\[(?:繁中|繁体中文|繁體中文)\]|\btraditional[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\b|\bzh[ _-]hant[ ._-]+(?:subtitles?|subs?)\b)|(?:\bCJKSub(?:U)?\b|中文字幕|中英(?:双字|雙字|字幕)|内封(?:中文|中字)|內封(?:中文|中字)|内嵌(?:中文|中字)|內嵌(?:中文|中字)|\[中字\]|\bchinese[ ._-]+(?:subtitles?|subs?)\b))', 'Rejects missing or contradictory Chinese subtitle evidence; penalty exceeds every positive score combined.');
+INSERT INTO regular_expressions (name, pattern, description) VALUES ('CJK - Missing Chinese Subtitle Evidence', '(?is)^(?!.*(?:\bCJKSubNO\b|(?:没有|沒有|不含|不带|不帶)(?:中文|简体|簡體|繁体|繁體|中英)?字幕|\bchinese[ ._-]+(?:subtitles?|subs?)\s*:\s*(?:no|none)\b|(?:中文字幕|简体字幕|繁體字幕|繁体字幕|簡體字幕)\s*(?:待发布|待發佈|待制作|制作中|製作中)|(?:无(?:中文|简体|繁体|中英)?字幕|無(?:中文|簡體|繁體|中英)?字幕|无中字|無中字|(?:中文字幕|简体字幕|繁体字幕|中文字幕)[：:]\s*(?:无|無|没有|沒有)|\b(?:no|without)\s+(?:(?:simplified|traditional)\s+)?(?:chinese\s+)?(?:subtitles?|subs?)\b|\b(?:no|without)\s+CH[ST]\b))).*(?:(?:\bCJKSubS\b|(?<![A-Za-z0-9])CHS(?![A-Za-z0-9])|简体(?:中文)?字幕|簡體(?:中文)?字幕|简(?:繁英|繁|中英|英)字幕|簡(?:繁英|繁|中英|英)字幕|\[(?:简中|簡中|简体中文|簡體中文)\]|\bsimplified[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\b|\bzh[ _-]hans[ ._-]+(?:subtitles?|subs?)\b)|(?:\bCJKSubT\b|(?<![A-Za-z0-9])CHT(?![A-Za-z0-9])|繁体(?:中文)?字幕|繁體(?:中文)?字幕|[简簡]繁(?:英)?字幕|繁(?:中英|英)字幕|\[(?:繁中|繁体中文|繁體中文)\]|\btraditional[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\b|\bzh[ _-]hant[ ._-]+(?:subtitles?|subs?)\b)|(?:\bCJKSub(?:U)?\b|中文字幕|中英(?:双字|雙字|字幕)|内封(?:中文|中字)|內封(?:中文|中字)|内嵌(?:中文|中字)|內嵌(?:中文|中字)|\[中字\]|\bchinese[ ._-]+(?:subtitles?|subs?)\b))', 'Missing or contradictory Chinese subtitle evidence. Informational only; score is zero.');
 
 INSERT INTO regular_expression_tags VALUES ('CJK - Missing Chinese Subtitle Evidence', 'CJK Local');
 
-INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('CJK - Missing Chinese Subtitle Evidence', 'Rejects missing or contradictory Chinese subtitle evidence; penalty exceeds every positive score combined.', 0);
+INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('CJK - Missing Chinese Subtitle Evidence', 'Missing or contradictory Chinese subtitle evidence. Informational only; score is zero.', 0);
 
 INSERT INTO custom_format_tags VALUES ('CJK - Missing Chinese Subtitle Evidence', 'CJK Local');
 
@@ -170,15 +170,13 @@ INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, 
 
 INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('CJK - Missing Chinese Subtitle Evidence', 'Example.S01E06.1080p.WEB-DL.CHS.CJKSubNO-GROUP', 'series', 1, 'Local evidence regression');
 
--- Fail closed even if every positive upstream/custom bonus matches simultaneously.
+-- Subtitle evidence is optional: no missing-evidence penalty.
 INSERT INTO quality_profile_custom_formats
-SELECT 'CJK 2160p Quality - Chinese Subs', 'CJK - Missing Chinese Subtitle Evidence', 'radarr', -(COALESCE(SUM(CASE WHEN score > 0 THEN score ELSE 0 END), 0) + 1)
-FROM quality_profile_custom_formats WHERE quality_profile_name = 'CJK 2160p Quality - Chinese Subs' AND arr_type IN ('all', 'radarr');
+VALUES ('CJK 2160p Quality', 'CJK - Missing Chinese Subtitle Evidence', 'radarr', 0);
 
--- Fail closed even if every positive upstream/custom bonus matches simultaneously.
+-- Subtitle evidence is optional: no missing-evidence penalty.
 INSERT INTO quality_profile_custom_formats
-SELECT 'CJK 2160p Quality - Chinese Subs', 'CJK - Missing Chinese Subtitle Evidence', 'sonarr', -(COALESCE(SUM(CASE WHEN score > 0 THEN score ELSE 0 END), 0) + 1)
-FROM quality_profile_custom_formats WHERE quality_profile_name = 'CJK 2160p Quality - Chinese Subs' AND arr_type IN ('all', 'sonarr');
+VALUES ('CJK 2160p Quality', 'CJK - Missing Chinese Subtitle Evidence', 'sonarr', 0);
 
 INSERT INTO delay_profiles (name, preferred_protocol, usenet_delay, torrent_delay,
     bypass_if_highest_quality, bypass_if_above_custom_format_score, minimum_custom_format_score)

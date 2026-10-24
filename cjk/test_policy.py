@@ -145,14 +145,13 @@ class DatabaseTests(unittest.TestCase):
             with self.subTest(table=table):
                 self.assertEqual(set(self.db.execute(query, (PROFILE,))), set(self.db.execute(query, (BASE,))))
 
-    def test_unknown_cannot_beat_minimum(self):
-        minimum = self.db.execute('SELECT minimum_custom_format_score FROM quality_profiles WHERE name=?', (PROFILE,)).fetchone()[0]
+    def test_missing_evidence_is_neutral_and_upstream_scores_preserved(self):
         for arr in ('radarr', 'sonarr'):
             scores = self.db.execute("SELECT custom_format_name, score FROM quality_profile_custom_formats WHERE quality_profile_name=? AND arr_type IN ('all', ?)", (PROFILE, arr)).fetchall()
             positives = sum(max(0, s) for _, s in scores)
-            penalty = dict(scores)[MISSING]
-            self.assertLess(positives + penalty, minimum)
-            self.assertEqual(positives + penalty, -1)
+            self.assertEqual(dict(scores)[MISSING], 0)
+            upstream = dict(self.db.execute("SELECT custom_format_name, score FROM quality_profile_custom_formats WHERE quality_profile_name=? AND arr_type IN ('all', ?)", (BASE, arr)))
+            self.assertEqual({n: s for n, s in scores if n in upstream}, upstream)
             # Worst-case aggregation must also fit Arr's signed 32-bit integer.
             self.assertLess(positives, 2**31)
             self.assertGreater(sum(min(0, s) for _, s in scores), -(2**31))

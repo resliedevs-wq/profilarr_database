@@ -5,18 +5,20 @@ based on branch `v2`, commit `acc3e2a5fd1b4bd147806317a662f2b4a5d08943`.
 The local branch is `cjk`. All 386 upstream SQL operations are unchanged;
 `ops/900000.cjk-chinese-subtitles.sql` adds the local policy after them.
 
-The repository has been prepared locally. Nothing has been published, deployed,
-or changed in the live Arr, Prowlarr, Profilarr or Seerr settings.
+The maintained GitHub repository is https://github.com/resliedevs-wq/profilarr_database.
+Branch `global` preserves the original upstream snapshot; `cjk` adds optional subtitle preferences.
+Profilarr 2.3.1 accepts GitHub repository URLs only. The Gitea instructions below
+describe the original source copy; use the GitHub URL and explicit `cjk` branch in Profilarr.
 
 ## What changes
 
 | Item | Behavior |
 | --- | --- |
-| `CJK 2160p Quality - Chinese Subs` | Copies upstream `2160p Quality`, then requires Chinese subtitle evidence. Retains its permitted qualities, grouping, language, quality scores, minimum score and upgrade rules. |
+| `CJK 2160p Quality` | Copies upstream `2160p Quality`, then adds optional Chinese subtitle preferences. Retains its permitted qualities, grouping, language, quality scores, minimum score and upgrade rules. |
 | `CJKSub` | Any explicit Chinese subtitle claim: +1. |
 | `CJKSubS` | Simplified claim: +2,000. |
 | `CJKSubT` | Traditional claim: +1. |
-| Missing-evidence format | Rejects unknown or explicitly contradictory subtitle claims. |
+| Missing-evidence format | Informational, score 0. Unknown or explicitly absent subtitles do not cause a subtitle penalty. |
 | `CJK Immediate` | Torrent-only, zero-minute delay; separately selected for the 中文 instances. |
 
 Traditional and unspecified-script Chinese subtitles are acceptable. A Simplified
@@ -25,12 +27,9 @@ override every upstream quality distinction. Upgrades still obey the upstream
 cutoff and upgrade rules. Downloading immediately means a later Simplified release
 may arrive after a Traditional release has already downloaded.
 
-The rejection penalty is calculated as minus the sum of **all positive scores
-plus one**, separately for each Arr. At this revision it is -22,337,324 for Radarr
-and -19,512,334 for Sonarr. Even the theoretical maximum of every positive bonus
-cannot cancel it. A conventional -10,000 penalty would be ineffective against
-Dictionarry's much larger tier scores. Do not add independent score overrides
-after this operation without recalculating and testing the bound.
+Chinese subtitles are not required. Missing or contradictory evidence receives
+zero subtitle points. Explicit negative claims suppress positive subtitle bonuses.
+The adapter is optional and only expands recognition to tracker descriptions.
 
 ## Why the adapter is included
 
@@ -126,7 +125,7 @@ replace the existing database instead, review the proposed sync changes first:
 this checkout is a newer upstream snapshot than some live settings observed
 during the audit.
 
-Sync **CJK 2160p Quality - Chinese Subs** and its referenced custom formats to
+Sync **CJK 2160p Quality** and its referenced custom formats to
 Radarr 中文 and Sonarr 中文. Under delay-profile synchronization select
 **CJK Immediate** for those two instances if you want zero delay maintained by
 Profilarr. Merely importing the database does not select or apply that preset.
@@ -154,7 +153,7 @@ evidence deliberately; `chi` alone does not identify Simplified vs Traditional.
 Use Interactive Search for Doctor X S01E06 after routing the feed and assigning
 the profile. Confirm the CMCTV title receives `CJKSubS.CJKSubT`, its group remains
 CMCTV, and the new custom formats match. Confirm unknown releases receive the
-large missing-evidence penalty. Inspect remaining rejection reasons separately.
+zero missing-evidence points. Inspect remaining rejection reasons separately.
 
 The original episode investigation also found queued E01/E02 downloads whose
 generic S01 names were interpreted as season packs, and a six-hour delay at that
@@ -204,7 +203,7 @@ git push origin cjk
 
 Review changes before pushing; do not schedule blind upstream merges. The local
 SQL copies the final upstream base profile at compile time and recomputes its
-rejection bound. Keep local operation numbers at 900000 or above, and check for
+optional preference scores. Keep local operation numbers at 900000 or above, and check for
 new upstream name/schema conflicts. If subtitle wording rules change, update
 `cjk/policy.json` / `cjk/evidence.py`, regenerate with `python -m cjk.build_policy`,
 and add cases before committing. Rebuild/redeploy the adapter with the same
