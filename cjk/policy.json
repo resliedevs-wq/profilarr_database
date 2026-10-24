@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "negative": "(?:无(?:中文|简体|繁体|中英)?字幕|無(?:中文|簡體|繁體|中英)?字幕|无中字|無中字|(?:中文字幕|简体字幕|繁体字幕|中文字幕)[：:]\\s*(?:无|無|没有|沒有)|\\b(?:no|without)\\s+(?:(?:simplified|traditional)\\s+)?(?:chinese\\s+)?(?:subtitles?|subs?)\\b|\\b(?:no|without)\\s+CH[ST]\\b)",
+  "simplified": "(?:\\bCJKSubS\\b|(?<![A-Za-z0-9])CHS(?![A-Za-z0-9])|简体(?:中文)?字幕|簡體(?:中文)?字幕|简(?:繁英|繁|中英|英)字幕|簡(?:繁英|繁|中英|英)字幕|\\[(?:简中|簡中|简体中文|簡體中文)\\]|\\bsimplified[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\\b|\\bzh[ _-]hans[ ._-]+(?:subtitles?|subs?)\\b)",
+  "traditional": "(?:\\bCJKSubT\\b|(?<![A-Za-z0-9])CHT(?![A-Za-z0-9])|繁体(?:中文)?字幕|繁體(?:中文)?字幕|[简簡]繁(?:英)?字幕|繁(?:中英|英)字幕|\\[(?:繁中|繁体中文|繁體中文)\\]|\\btraditional[ ._-]+chinese[ ._-]+(?:subtitles?|subs?)\\b|\\bzh[ _-]hant[ ._-]+(?:subtitles?|subs?)\\b)",
+  "unspecified": "(?:\\bCJKSub(?:U)?\\b|中文字幕|中英(?:双字|雙字|字幕)|内封(?:中文|中字)|內封(?:中文|中字)|内嵌(?:中文|中字)|內嵌(?:中文|中字)|\\[中字\\]|\\bchinese[ ._-]+(?:subtitles?|subs?)\\b)",
+  "markers": {"simplified": "CJKSubS", "traditional": "CJKSubT", "unspecified": "CJKSubU"}
+}

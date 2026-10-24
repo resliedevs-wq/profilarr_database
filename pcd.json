@@ -1,7 +1,7 @@
 {
-  "name": "Dictionarry Database",
+  "name": "Mike CJK Profiles",
   "version": "2.0.0",
-  "description": "Official Dictionarry Database",
+  "description": "Local Dictionarry fork: unchanged upstream profiles plus strict Chinese subtitle evidence for CJK media.",
   "arr_types": [
     "radarr",
     "sonarr"
@@ -12,13 +12,16 @@
   "authors": [
     {
       "name": "Dictionarry Team"
+    },
+    {
+      "name": "Mike (local CJK policy)"
     }
   ],
   "license": "MIT",
-  "repository": "https://github.com/dictionarry-hub/db",
+  "repository": "http://mac.local:3000/mike/profilar_profiles",
   "links": {
     "homepage": "https://dictionarry.dev",
-    "issues": "https://github.com/dictionarry-hub/db/issues"
+    "issues": "http://mac.local:3000/mike/profilar_profiles/issues"
   },
   "profilarr": {
     "minimum_version": "2.0.0"

@@ -1,0 +1,12 @@
+services:
+  cjk-subtitle-feed:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "9697:9697"
+    environment:
+      PROWLARR_URL: ${PROWLARR_URL:-http://10.0.6.59:9696}
+      CJK_INDEXER_IDS: ${CJK_INDEXER_IDS:-1,10,11,12,13}
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
